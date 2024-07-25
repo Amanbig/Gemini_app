@@ -1,36 +1,127 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/screens/auth/signup.dart';
+import 'package:gemini_app/screens/home.dart';
+import 'package:gemini_app/services/firebaseService.dart'; // Import your FirebaseService
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  LoginPage({super.key});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FirebaseService _firebaseService = FirebaseService(); // Initialize FirebaseService
+  bool _isLoading = false; // Loading indicator state
+
+  @override
+  void initState() {
+    super.initState();
+    // Check authentication after build is complete
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAuthentication();
+    });
+  }
+
+  Future<void> _checkAuthentication() async {
+    User? user = _firebaseService.getCurrentUser();
+    if (user != null) {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        User? user = await _firebaseService.signInWithEmailPassword(
+          emailController.text,
+          passController.text,
+        );
+
+        if (user != null) {
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          }
+        } else {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Login failed. Please try again.')),
+            );
+          }
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('An error occurred: $e')),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        elevation: 6,
+        backgroundColor: Colors.black,
+        title: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Login',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 32,
+                color: Colors.white,
+                fontFamily: 'Raleway',
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Form(
-                key: GlobalKey<FormState>(),
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Image.network(
@@ -50,6 +141,7 @@ class LoginPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TextFormField(
+                        controller: emailController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           labelText: 'Email',
@@ -95,6 +187,7 @@ class LoginPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TextFormField(
+                        controller: passController,
                         style: TextStyle(color: Colors.white),
                         obscureText: true,
                         decoration: InputDecoration(
@@ -166,10 +259,10 @@ class LoginPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
-                        onPressed: () {
-                          // Handle login logic
-                        },
-                        child: Padding(
+                        onPressed: _isLoading ? null : _login, // Disable button when loading
+                        child: _isLoading
+                            ? CircularProgressIndicator() // Show loading indicator
+                            : Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
                             'Login',

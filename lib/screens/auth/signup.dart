@@ -1,19 +1,89 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/screens/auth/login.dart';
+import 'package:gemini_app/services/firebaseService.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
 
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FirebaseService _firebaseService = FirebaseService();
+
+  void _signUp() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        var user = await _firebaseService.registerWithEmailPassword(
+          emailController.text,
+          passwordController.text,
+          usernameController.text,
+        );
+
+        if (user != null) {
+          // Navigate to another page or show success message
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginPage()),
+          );
+        } else {
+          // Handle registration failure
+          _showErrorDialog("Registration failed. Please try again.");
+        }
+      } catch (e) {
+        _showErrorDialog("An error occurred: $e");
+      }
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        elevation: 6,
+        backgroundColor: Colors.black,
+        title: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Sign Up',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 32,
+                color: Colors.white,
+                fontFamily: 'Raleway',
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Center(
@@ -25,17 +95,6 @@ class SignUpPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Image.network(
@@ -62,27 +121,19 @@ class SignUpPage extends StatelessWidget {
                           labelStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange,
-                            ),
+                            borderSide: BorderSide(color: Colors.orange),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange,
-                            ),
+                            borderSide: BorderSide(color: Colors.orange),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           fillColor: Colors.black,
                           filled: true,
@@ -105,27 +156,19 @@ class SignUpPage extends StatelessWidget {
                           labelStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange,
-                            ),
+                            borderSide: BorderSide(color: Colors.orange),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange,
-                            ),
+                            borderSide: BorderSide(color: Colors.orange),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           fillColor: Colors.black,
                           filled: true,
@@ -152,27 +195,19 @@ class SignUpPage extends StatelessWidget {
                           labelStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange,
-                            ),
+                            borderSide: BorderSide(color: Colors.orange),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange,
-                            ),
+                            borderSide: BorderSide(color: Colors.orange),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           fillColor: Colors.black,
                           filled: true,
@@ -194,16 +229,14 @@ class SignUpPage extends StatelessWidget {
                       children: [
                         Text(
                           "Already have an account?  ",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                          style: TextStyle(color: Colors.white),
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
                           },
                           child: Text(
                             'Login to account',
@@ -219,12 +252,7 @@ class SignUpPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // Handle sign-up logic
-                            print(emailController.text);
-                          }
-                        },
+                        onPressed: _signUp,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text(

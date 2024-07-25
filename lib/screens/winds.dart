@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:gemini_app/main.dart';
+import 'package:gemini_app/services/services.dart';
+import 'package:gemini_app/screens/home.dart';
 
 class Song extends StatefulWidget {
   final String title;
@@ -12,34 +12,38 @@ class Song extends StatefulWidget {
   State<Song> createState() => _SongState();
 }
 
-class _SongState extends State<Song> {
-  final FlutterTts _flutterTts = FlutterTts();
-  var _currentVoice;
+class _SongState extends State<Song> with SingleTickerProviderStateMixin {
   bool start = true;
+  final Services service = Services();
+  late AnimationController _controller;
+  late Animation<double> _fadeInAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    initTTS();
+    service.initTTS();
+
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _fadeInAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _controller.forward();
   }
 
-  void initTTS(){
-    _flutterTts.getVoices.then((data){
-      try{
-         List<Map> _voices = List<Map>.from(data);
-         _voices = _voices.where((_voice) => _voice["name"].contains("en")).toList();
-        setState(() {
-          _currentVoice = _voices.first;
-          setVoice(_currentVoice!);
-        });
-      }catch(e){
-        print(e);
-      }
-    });
-  }
-
-  void setVoice(Map voice){
-    _flutterTts.setVoice({"name": voice["name"],"locale":voice["locale"]});
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,6 +53,34 @@ class _SongState extends State<Song> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Center(
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => HomePage()));
+                },
+                icon: Icon(CupertinoIcons.back),
+                iconSize: 30,
+                color: Colors.white,
+                splashColor: Colors.white,
+                highlightColor: Colors.white.withOpacity(0.2),
+              ),
+              SizedBox(width: 12),
+              Text(
+                widget.title.toUpperCase(),
+                style: Theme.of(context).textTheme.headline4?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -56,48 +88,32 @@ class _SongState extends State<Song> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
-                        },
-                        icon: Icon(CupertinoIcons.back),
-                        iconSize: 30,
-                        color: Colors.white,
-                        splashColor: Colors.white,
-                        highlightColor: Colors.white.withOpacity(0.2),
-                      ),
-                      SizedBox(width: 12),
-                      Text(
-                        widget.title.toUpperCase(),
-                        style: Theme.of(context).textTheme.headline4?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: screenWidth - 20, // Subtracting padding from width
-                    height: screenHeight * 0.7, // 70% of screen height
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: SingleChildScrollView(
-                          child: Text(
-                            widget.ans,
-                            style: TextStyle(
-                              color: Colors.white,
+                  child: FadeTransition(
+                    opacity: _fadeInAnimation,
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Container(
+                        width: screenWidth - 20,
+                        height: screenHeight * 0.7,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.grey[900],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                widget.ans,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -111,22 +127,29 @@ class _SongState extends State<Song> {
                     decoration: BoxDecoration(
                       color: Colors.red[700],
                       shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.red.withOpacity(0.6),
+                          spreadRadius: 4,
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: IconButton(
-                      onPressed: () {
-                        if(start) {
-                          _flutterTts.speak(widget.ans);
+                      onPressed: () async {
+                        if (start) {
+                          await service.flutterTts.speak(widget.ans);
                           setState(() {
                             start = false;
                           });
-                        }
-                        else{
-                          _flutterTts.stop();
+                        } else {
+                          await service.flutterTts.stop();
                           setState(() {
                             start = true;
                           });
                         }
-                        },
+                      },
                       icon: Icon(Icons.speaker_phone),
                       iconSize: 30,
                       color: Colors.white,
