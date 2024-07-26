@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/screens/auth/login.dart';
+import 'package:gemini_app/screens/mainScreen.dart';
 import 'package:gemini_app/services/firebaseService.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
           // Navigate to another page or show success message
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => LoginPage()),
+            MaterialPageRoute(builder: (context) => MainScreen()),
           );
         } else {
           // Handle registration failure

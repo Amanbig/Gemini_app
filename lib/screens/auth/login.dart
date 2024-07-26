@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/screens/auth/signup.dart';
-import 'package:gemini_app/screens/home.dart';
 import 'package:gemini_app/screens/mainScreen.dart';
 import 'package:gemini_app/services/firebaseService.dart'; // Import your FirebaseService
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
           if (mounted) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => MainScreen()),
             );
           }
         } else {
