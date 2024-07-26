@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gemini_app/screens/mainScreen.dart';
 import 'package:gemini_app/services/services.dart';
 import 'package:gemini_app/screens/home.dart';
 
@@ -61,7 +62,7 @@ class _SongState extends State<Song> with SingleTickerProviderStateMixin {
               IconButton(
                 onPressed: () {
                   Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => HomePage()));
+                      context, MaterialPageRoute(builder: (context) => MainScreen()));
                 },
                 icon: Icon(CupertinoIcons.back),
                 iconSize: 30,

@@ -1,6 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/components/parts.dart';
 import 'package:gemini_app/screens/generate_page.dart';
+import 'package:gemini_app/screens/ramdonChat.dart';
+
+import 'noInternetConn.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -13,6 +17,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   late AnimationController _controller;
   late Animation<double> _fadeInAnimation;
   late Animation<double> _scaleAnimation;
+  bool _isConnected = false;
+  bool _isChecking = true;
 
   @override
   void initState() {
@@ -32,12 +38,40 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
 
     _controller.forward();
+    _checkConnection(); // Make sure to call _checkConnection() here
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _checkConnection() async {
+    try {
+      bool result = await checkInternetConnection();
+      setState(() {
+        _isConnected = result;
+        _isChecking = false;
+      });
+      print('Connection check complete. Connected: $_isConnected');
+    } catch (e) {
+      print('Error checking internet connection: $e');
+      setState(() {
+        _isChecking = false; // Ensure checking state is updated even on error
+      });
+    }
+  }
+
+  Future<bool> checkInternetConnection() async {
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      return connectivityResult == ConnectivityResult.mobile ||
+          connectivityResult == ConnectivityResult.wifi;
+    } catch (e) {
+      print('Error checking connectivity result: $e');
+      return false; // Default to false if there's an error
+    }
   }
 
   @override
@@ -64,7 +98,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: FadeTransition(
+          child: _isChecking
+              ? Center(child: CircularProgressIndicator())
+              : _isConnected
+              ? FadeTransition(
             opacity: _fadeInAnimation,
             child: ScaleTransition(
               scale: _scaleAnimation,
@@ -105,11 +142,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     icon: Icons.chat,
                     color1: Colors.pinkAccent[700],
                     color2: Colors.pinkAccent[900],
+                    func: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => RandomChat()),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
+          ) : NoInternetWidget(onRetry: _checkConnection),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/components/gen.dart';
-import 'package:gemini_app/screens/home.dart';
+import 'package:gemini_app/screens/mainScreen.dart';
 
 class GeneratePage extends StatefulWidget {
   final String title;
@@ -52,7 +52,7 @@ class _GeneratePageState extends State<GeneratePage> with SingleTickerProviderSt
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
               },
               icon: Icon(CupertinoIcons.back),
               iconSize: 30,

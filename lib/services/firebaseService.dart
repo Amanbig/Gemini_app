@@ -33,9 +33,13 @@ class FirebaseService {
       User? user = userCredential.user;
 
       if (user != null) {
-        // Save username in Firestore
-        await _firestore.collection('users').doc(user.uid).set({
-          'username': username,
+        // Update the user's display name
+        await user.updateDisplayName(username);
+        await user.reload();
+        user = _auth.currentUser;
+
+        // Optionally, you can still save other user data in Firestore
+        await _firestore.collection('users').doc(user?.uid).set({
           'email': email,
         });
       }
@@ -90,38 +94,34 @@ class FirebaseService {
     }
   }
 
+  // Add this method in your FirebaseService class
+
+  Future<List<DocumentSnapshot>> getGeneratedContents() async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('generatedContents')
+          .orderBy('timestamp', descending: true)
+          .get();
+      return querySnapshot.docs;
+    } catch (e) {
+      print("Error fetching documents: $e");
+      return [];
+    }
+  }
+
   Stream<QuerySnapshot> getCollectionStream(String collection) {
     return _firestore.collection(collection).snapshots();
   }
 
-  // Storage methods
-  // Future<String?> uploadFile(String path, String filePath) async {
-  //   try {
-  //     File file = File(filePath);
-  //     TaskSnapshot taskSnapshot = await _storage.ref(path).putFile(file);
-  //     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-  //     return downloadUrl;
-  //   } catch (e) {
-  //     print("Error uploading file: $e");
-  //     return null;
-  //   }
-  // }
-  //
-  // Future<void> deleteFile(String path) async {
-  //   try {
-  //     await _storage.ref(path).delete();
-  //   } catch (e) {
-  //     print("Error deleting file: $e");
-  //   }
-  // }
-  //
-  // Future<String> getDownloadUrl(String path) async {
-  //   try {
-  //     String downloadUrl = await _storage.ref(path).getDownloadURL();
-  //     return downloadUrl;
-  //   } catch (e) {
-  //     print("Error getting download URL: $e");
-  //     return Future.error(e);
-  //   }
-  // }
+  Stream<QuerySnapshot> getChatMessagesStream(String collection) {
+    return _firestore.collection(collection).orderBy('timestamp', descending: true).snapshots();
+  }
+
+  Future<void> addChatMessage(String collection, Map<String, dynamic> data) async {
+    try {
+      await _firestore.collection(collection).add(data);
+    } catch (e) {
+      print("Error adding chat message: $e");
+    }
+  }
 }

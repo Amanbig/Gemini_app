@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/screens/auth/signup.dart';
 import 'package:gemini_app/screens/home.dart';
+import 'package:gemini_app/screens/mainScreen.dart';
 import 'package:gemini_app/services/firebaseService.dart'; // Import your FirebaseService
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -29,16 +30,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _checkAuthentication() async {
-    User? user = _firebaseService.getCurrentUser();
-    if (user != null) {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+    try {
+      User? user = await _firebaseService.getCurrentUser(); // Use the FirebaseService instance
+      if (user != null) {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+          );
+        }
       }
+    } catch (e) {
+      print('Error checking authentication: $e');
     }
   }
+
 
   @override
   void dispose() {
@@ -58,6 +64,8 @@ class _LoginPageState extends State<LoginPage> {
           emailController.text,
           passController.text,
         );
+
+        print("User after sign-in: ${user?.uid}"); // Debugging line
 
         if (user != null) {
           if (mounted) {
@@ -88,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
