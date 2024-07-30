@@ -1,16 +1,61 @@
-# gemini_app
+# Gem AI App
 
-A new Flutter project.
+Gem AI App is a versatile application that allows users to generate various types of creative content, including songs, stories, and paragraphs. It also features a dynamic conversation module with an AI model, as well as built-in connectivity checks.
 
-## Getting Started
+<div align="center">
+  <img src="https://github.com/Amanbig/Gemini_app/blob/main/homepage.png" alt="HomePage" width="200"/>
+  <img src="https://github.com/Amanbig/Gemini_app/blob/main/genpage.png" alt="Gen Page" width="200"/>
+  <img src="https://github.com/Amanbig/Gemini_app/blob/main/randomChat.png" alt="Chat Page" width="200"/>
+</div>
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Generate Content**: Create songs, stories, and paragraphs through a user-friendly interface.
+- **Random Chat**: Engage in real-time conversations with an AI model.
+- **Connectivity Check**: Automatically checks for internet connectivity and provides feedback if no connection is detected.
+- **Animations**: Smooth animations enhance the user experience.
+- **Retry Mechanism**: Allows users to retry connection if there is no internet.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To get started with Gem AI App, follow these steps:
+
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/Amanbig/Gemini_app.git
+    ```
+
+2. **Navigate to the project directory**:
+    ```bash
+    cd Gemini_app
+    ```
+
+3. **Install dependencies**:
+    ```bash
+    flutter pub get
+    ```
+
+4. **Run the app**:
+    ```bash
+    flutter run
+    ```
+
+## Usage
+
+After installing the app, you can:
+
+- **Generate Content**: Select the type of content you want to generate from the home page.
+- **Engage in Chat**: Navigate to the Random Chat section to start a conversation with the AI.
+- **Retry Connection**: Use the retry option in the No Internet Widget if you encounter connectivity issues.
+
+## Code Overview
+
+- **`lib/screens/home_page.dart`**: Contains the main home screen with content generation options and connectivity checks.
+- **`lib/screens/generate_page.dart`**: Handles the content generation functionality.
+- **`lib/screens/random_chat.dart`**: Manages the random chat feature with AI.
+- **`lib/components/parts.dart`**: Provides reusable UI components used throughout the app.
+- **`lib/components/no_internet_conn.dart`**: Displays a message when there is no internet connection.
+
+## Contributing
+
+If you would like to contribute to this project, please fork the repository and create a pull request with your changes.
