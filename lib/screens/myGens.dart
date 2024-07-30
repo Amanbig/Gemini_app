@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/components/createdGens.dart';
-import 'package:gemini_app/main.dart';
 import 'package:gemini_app/screens/auth/login.dart';
 import 'package:gemini_app/screens/noGens.dart';
 import 'package:gemini_app/services/firebaseService.dart';
@@ -16,7 +15,7 @@ class MyGens extends StatefulWidget {
 }
 
 class _MyGensState extends State<MyGens> {
-  User? user = firebase.getCurrentUser();
+  User? user = FirebaseAuth.instance.currentUser; // Use FirebaseAuth.instance to get current user
   final FirebaseService _firebaseService = FirebaseService();
   List<DocumentSnapshot> _generatedContents = [];
   bool _isLoading = true;
@@ -42,8 +41,8 @@ class _MyGensState extends State<MyGens> {
       body: _isLoading
           ? SafeArea(child: Center(child: CircularProgressIndicator()))
           : SafeArea(
-            child: SingleChildScrollView(
-                    child: Padding(
+        child: SingleChildScrollView(
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
@@ -61,7 +60,7 @@ class _MyGensState extends State<MyGens> {
                           ),
                         ),
                         Text(
-                          '${firebase.getCurrentUser()?.displayName}',
+                          '${user?.displayName ?? 'Guest'}', // Handle null displayName
                           style: TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.bold,
@@ -74,7 +73,7 @@ class _MyGensState extends State<MyGens> {
                     IconButton(
                       onPressed: () {
                         print(user);
-                        firebase.signOut();
+                        FirebaseAuth.instance.signOut(); // Use FirebaseAuth.instance for sign out
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => LoginPage()),
@@ -103,22 +102,31 @@ class _MyGensState extends State<MyGens> {
                 _generatedContents.isEmpty
                     ? NoGens()
                     : ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _generatedContents.length,
-                    itemBuilder: (context, index) {
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _generatedContents.length,
+                  itemBuilder: (context, index) {
                     DocumentSnapshot doc = _generatedContents[index];
-                    if(doc['email']==_firebaseService.getCurrentUser()?.email.toString())
-                    return CreatedGens(title: doc['title'], description: doc['description'], content: doc['content'],);
-                    else
-                      return null;
+                    // Ensure the field 'email' exists and is not null
+                    final email = doc['email'] as String?;
+                    final currentUserEmail = _firebaseService.getCurrentUser()?.email?.toString();
+
+                    if (email == currentUserEmail) {
+                      return CreatedGens(
+                        title: doc['title'] ?? '', // Provide default values if fields might be missing
+                        description: doc['description'] ?? '',
+                        content: doc['content'] ?? '',
+                      );
+                    } else {
+                      return SizedBox(); // Return an empty widget if condition is not met
+                    }
                   },
                 ),
               ],
             ),
-                    ),
-                  ),
           ),
+        ),
+      ),
     );
   }
 }
