@@ -39,16 +39,29 @@ class _RandomChatState extends State<RandomChat> with SingleTickerProviderStateM
   void _loadMessages() {
     _messagesSubscription = _firebaseService.getChatMessagesStream('chatMessages').listen((snapshot) {
       final newMessages = snapshot.docs;
+      final email = _firebaseService.getCurrentUser()?.email.toString();
+
       for (var i = 0; i < newMessages.length; i++) {
-        if (_messages.length <= i || _messages[i].id != newMessages[i].id) {
-          setState(() {
-            _messages.insert(i, newMessages[i]);
-          });
-          _listKey.currentState?.insertItem(i);
+        final doc = newMessages[i];
+        final messageData = doc.data() as Map<String, dynamic>;
+        final messageEmail = messageData['email'] as String?;
+
+        if (messageEmail != null && email == messageEmail) {
+          final index = _messages.indexWhere((message) => message.id == doc.id);
+
+          if (index == -1) {
+            // Document is not already in the list, add it
+            setState(() {
+              _messages.insert(0, doc); // Insert at the beginning for reversed list
+            });
+            _listKey.currentState?.insertItem(0); // Insert at the beginning for reversed list
+          }
         }
       }
     });
   }
+
+
 
   Future<void> _sendMessage() async {
     if (controller.text.isNotEmpty) {
@@ -62,6 +75,7 @@ class _RandomChatState extends State<RandomChat> with SingleTickerProviderStateM
           'content': controller.text,
           'timestamp': FieldValue.serverTimestamp(),
           'sender': 'user',
+          'email':_firebaseService.getCurrentUser()?.email,
         });
 
         // Generate response from Gemini
@@ -70,6 +84,7 @@ class _RandomChatState extends State<RandomChat> with SingleTickerProviderStateM
           'content': generatedText,
           'timestamp': FieldValue.serverTimestamp(),
           'sender': 'ai',
+          'email':_firebaseService.getCurrentUser()?.email,
         });
 
         controller.clear();

@@ -108,7 +108,10 @@ class _MyGensState extends State<MyGens> {
                     itemCount: _generatedContents.length,
                     itemBuilder: (context, index) {
                     DocumentSnapshot doc = _generatedContents[index];
+                    if(doc['email']==_firebaseService.getCurrentUser()?.email.toString())
                     return CreatedGens(title: doc['title'], description: doc['description'], content: doc['content'],);
+                    else
+                      return null;
                   },
                 ),
               ],

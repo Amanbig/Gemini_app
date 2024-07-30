@@ -47,6 +47,7 @@ class _GenerateState extends State<Generate> {
         'title': widget.title,
         'description': controller.text,
         'content': hell,
+        'email':_firebaseService.getCurrentUser()?.email,
         'timestamp': FieldValue.serverTimestamp(), // Add a timestamp for sorting
       });
 
