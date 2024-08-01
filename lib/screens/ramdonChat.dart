@@ -105,12 +105,12 @@ class _RandomChatState extends State<RandomChat> with SingleTickerProviderStateM
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => MainScreen()));
+                Navigator.pop(context);
               },
               icon: Icon(CupertinoIcons.back),
               iconSize: 30,

@@ -61,7 +61,7 @@ class _GenerateState extends State<Generate> {
       });
     }
 
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => Song(title: controller.text, ans: hell)),
     );

@@ -17,7 +17,7 @@ class CreatedGens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushReplacement(
+      onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Song(title: description, ans: content)),
       ),

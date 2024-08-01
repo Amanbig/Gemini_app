@@ -15,7 +15,7 @@ class MyGens extends StatefulWidget {
 }
 
 class _MyGensState extends State<MyGens> {
-  User? user = FirebaseAuth.instance.currentUser; // Use FirebaseAuth.instance to get current user
+  User? user = FirebaseAuth.instance.currentUser;
   final FirebaseService _firebaseService = FirebaseService();
   List<DocumentSnapshot> _generatedContents = [];
   bool _isLoading = true;
@@ -41,88 +41,90 @@ class _MyGensState extends State<MyGens> {
       body: _isLoading
           ? SafeArea(child: Center(child: CircularProgressIndicator()))
           : SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome, ',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.white,
+        child: RefreshIndicator(
+          onRefresh: _fetchGeneratedContents, // Trigger data refresh on pull
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(), // Ensure the list can always be pulled down
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Welcome, ',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '${user?.displayName ?? 'Guest'}', // Handle null displayName
-                          style: TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontFamily: 'Raleway',
+                          Text(
+                            '${user?.displayName ?? 'Guest'}',
+                            style: TextStyle(
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontFamily: 'Raleway',
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        print(user);
-                        FirebaseAuth.instance.signOut(); // Use FirebaseAuth.instance for sign out
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
-                      },
-                      icon: Icon(
-                        CupertinoIcons.square_arrow_right,
-                        color: Colors.redAccent,
+                        ],
                       ),
-                      iconSize: 34,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 32),
-                Divider(thickness: 5),
-                SizedBox(height: 32),
-                Text(
-                  'Recent Gens',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                      IconButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                          );
+                        },
+                        icon: Icon(
+                          CupertinoIcons.square_arrow_right,
+                          color: Colors.redAccent,
+                        ),
+                        iconSize: 34,
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(height: 32),
-                _generatedContents.isEmpty
-                    ? NoGens()
-                    : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: _generatedContents.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot doc = _generatedContents[index];
-                    // Ensure the field 'email' exists and is not null
-                    final email = doc['email'] as String?;
-                    final currentUserEmail = _firebaseService.getCurrentUser()?.email?.toString();
+                  SizedBox(height: 32),
+                  Divider(thickness: 5),
+                  SizedBox(height: 32),
+                  Text(
+                    'Recent Gens',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 32),
+                  _generatedContents.isEmpty
+                      ? NoGens()
+                      : ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _generatedContents.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot doc = _generatedContents[index];
+                      final email = doc['email'] as String?;
+                      final currentUserEmail = _firebaseService.getCurrentUser()?.email?.toString();
 
-                    if (email == currentUserEmail) {
-                      return CreatedGens(
-                        title: doc['title'] ?? '', // Provide default values if fields might be missing
-                        description: doc['description'] ?? '',
-                        content: doc['content'] ?? '',
-                      );
-                    } else {
-                      return SizedBox(); // Return an empty widget if condition is not met
-                    }
-                  },
-                ),
-              ],
+                      if (email == currentUserEmail) {
+                        return CreatedGens(
+                          title: doc['title'] ?? '',
+                          description: doc['description'] ?? '',
+                          content: doc['content'] ?? '',
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

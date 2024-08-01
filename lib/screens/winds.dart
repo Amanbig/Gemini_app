@@ -56,13 +56,13 @@ class _SongState extends State<Song> with SingleTickerProviderStateMixin {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
         title: Center(
           child: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => MainScreen()));
+                  Navigator.pop(context);
                 },
                 icon: Icon(CupertinoIcons.back),
                 iconSize: 30,

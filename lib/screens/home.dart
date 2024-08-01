@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   Parts(
                     title: 'Generate a Song',
                     icon: Icons.music_note,
-                    func: () => Navigator.pushReplacement(
+                    func: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => GeneratePage(title: 'Song')),
                     ),
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   Parts(
                     title: 'Generate a Story',
                     icon: Icons.history,
-                    func: () => Navigator.pushReplacement(
+                    func: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => GeneratePage(title: 'Story')),
                     ),
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   Parts(
                     title: 'Generate a Paragraph',
                     icon: Icons.text_fields,
-                    func: () => Navigator.pushReplacement(
+                    func: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => GeneratePage(title: 'Paragraph')),
                     ),
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     icon: Icons.chat,
                     color1: Colors.pinkAccent[700],
                     color2: Colors.pinkAccent[900],
-                    func: () => Navigator.pushReplacement(
+                    func: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RandomChat()),
                     ),
