@@ -36,7 +36,7 @@ class _GenerateState extends State<Generate> {
         loading = true;
       });
 
-      final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: 'AIzaSyDEZLvpQDd39rQZSMiA7ei9x_upBAZQTu4');
+      final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: 'API_KEY');
       final content = [Content.text('Write a ${widget.title} about a ${controller.text}.')];
       final response = await model.generateContent(content);
 
