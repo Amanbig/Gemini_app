@@ -46,7 +46,6 @@ After installing the app, you can:
 
 - **Generate Content**: Select the type of content you want to generate from the home page.
 - **Engage in Chat**: Navigate to the Random Chat section to start a conversation with the AI.
-- **Retry Connection**: Use the retry option in the No Internet Widget if you encounter connectivity issues.
 
 ## Code Overview
 
@@ -54,7 +53,6 @@ After installing the app, you can:
 - **`lib/screens/generate_page.dart`**: Handles the content generation functionality.
 - **`lib/screens/random_chat.dart`**: Manages the random chat feature with AI.
 - **`lib/components/parts.dart`**: Provides reusable UI components used throughout the app.
-- **`lib/components/no_internet_conn.dart`**: Displays a message when there is no internet connection.
 
 ## Contributing
 
