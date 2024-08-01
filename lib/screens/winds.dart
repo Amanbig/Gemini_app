@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gemini_app/screens/mainScreen.dart';
 import 'package:gemini_app/services/services.dart';
-import 'package:gemini_app/screens/home.dart';
 
 class Song extends StatefulWidget {
   final String title;
@@ -73,7 +71,7 @@ class _SongState extends State<Song> with SingleTickerProviderStateMixin {
               SizedBox(width: 12),
               Text(
                 widget.title.toUpperCase(),
-                style: Theme.of(context).textTheme.headline4?.copyWith(
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
