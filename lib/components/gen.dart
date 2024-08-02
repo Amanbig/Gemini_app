@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-import '../screens/winds.dart';
-import '../services/firebaseService.dart'; // Import your FirebaseService
-
+import '../screens/winds.dart'; // Replace with the correct path to your Song widget
+import 'package:gemini_app/services/firebaseService.dart'; // Import your FirebaseService
+import 'package:gemini_app/services/geminiService.dart';// Import your GeminiService
 
 class Generate extends StatefulWidget {
   final String title;
@@ -18,6 +17,7 @@ class _GenerateState extends State<Generate> {
   TextEditingController controller = TextEditingController();
   bool loading = false;
   final FirebaseService _firebaseService = FirebaseService(); // Initialize FirebaseService
+  final GeminiService _geminiService = GeminiService(); // Initialize GeminiService
 
   @override
   void initState() {
@@ -30,41 +30,39 @@ class _GenerateState extends State<Generate> {
   }
 
   Future<void> _fetchContents() async {
-    var hell;
+    String generatedContent;
     try {
       setState(() {
         loading = true;
       });
 
-      final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: 'AIzaSyDEZLvpQDd39rQZSMiA7ei9x_upBAZQTu4');
-      final content = [Content.text('Write a ${widget.title} about a ${controller.text}.')];
-      final response = await model.generateContent(content);
-
-      hell = response.text.toString();
+      // Use GeminiService to generate content
+      generatedContent = await _geminiService.generate(widget.title, controller.text);
 
       // Store the generated content in Firestore using FirebaseService
       await _firebaseService.addDocument('generatedContents', {
         'title': widget.title,
         'description': controller.text,
-        'content': hell,
-        'email':_firebaseService.getCurrentUser()?.email,
+        'content': generatedContent,
+        'email': _firebaseService.getCurrentUser()?.email,
         'timestamp': FieldValue.serverTimestamp(), // Add a timestamp for sorting
       });
 
       setState(() {
         loading = false;
       });
+
+      // Navigate to the Song screen with the generated content
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Song(title: controller.text, ans: generatedContent)),
+      );
     } catch (e) {
       print('Error obtaining Gemini instance or fetching content: $e');
       setState(() {
         loading = false;
       });
     }
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Song(title: controller.text, ans: hell)),
-    );
   }
 
   @override
@@ -74,11 +72,11 @@ class _GenerateState extends State<Generate> {
       child: Row(
         children: [
           Expanded(
-                child: TextField(
-                        style: TextStyle(color: Colors.white),
-                        controller: controller,
-                        // onSubmitted: (value) => _fetchContents(),
-                        decoration: InputDecoration(
+            child: TextField(
+              style: TextStyle(color: Colors.white),
+              controller: controller,
+              // onSubmitted: (value) => _fetchContents(),
+              decoration: InputDecoration(
                 labelText: 'Generate',
                 labelStyle: TextStyle(color: Colors.white),
                 enabledBorder: OutlineInputBorder(
@@ -107,13 +105,15 @@ class _GenerateState extends State<Generate> {
                 ),
                 fillColor: Colors.black,
                 filled: true,
-                        ),
-                      ),
               ),
-          loading?Padding(
+            ),
+          ),
+          loading
+              ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircularProgressIndicator(), // Show loading indicator
-          ): IconButton(
+          )
+              : IconButton(
             onPressed: () => _fetchContents(),
             icon: Icon(CupertinoIcons.arrow_right_circle_fill,
                 color: Colors.orange, size: 56),
