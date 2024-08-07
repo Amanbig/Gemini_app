@@ -34,8 +34,16 @@ To get started with Gem AI App, follow these steps:
     ```bash
     flutter pub get
     ```
+4. **Create Environment File**:
 
-4. **Run the app**:
+   Create a `.env` file in the root directory of the project and add your API credentials:
+
+    ```plaintext
+    API_URL=https://api.example.com
+    API_KEY=your_api_key_here
+    ```
+   
+5. **Run the app**:
     ```bash
     flutter run
     ```
