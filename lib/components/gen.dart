@@ -118,6 +118,16 @@ class _GenerateState extends State<Generate> {
             icon: Icon(CupertinoIcons.arrow_right_circle_fill,
                 color: Colors.orange, size: 56),
           ),
+          loading
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(), // Show loading indicator
+                )
+              : IconButton(
+                  onPressed: () => _fetchContents(),
+                  icon: Icon(CupertinoIcons.arrow_right_circle_fill,
+                      color: Colors.orange, size: 56),
+                ),
         ],
       ),
     );
