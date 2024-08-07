@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "146848322750",
+    "project_id": "gem-app-2adf0",
+    "storage_bucket": "gem-app-2adf0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146848322750:android:3a2e04f2737a5dbb2ffaef",
+        "android_client_info": {
+          "package_name": "com.example.gemini_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7UkkioCkVPmSzR9fZrA3JpSiUA4MRz3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -132,8 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Image.network(
-                        'https://www.pngmart.com/files/21/AI-PNG-Isolated-File.png',
+                      child: Image.asset(
+                        'assets/ai_image.png',
                         width: 160.0,
                         height: 150.0,
                         fit: BoxFit.cover,
