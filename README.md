@@ -12,9 +12,7 @@ Gem AI App is a versatile application that allows users to generate various type
 
 - **Generate Content**: Create songs, stories, and paragraphs through a user-friendly interface.
 - **Random Chat**: Engage in real-time conversations with an AI model.
-- **Connectivity Check**: Automatically checks for internet connectivity and provides feedback if no connection is detected.
 - **Animations**: Smooth animations enhance the user experience.
-- **Retry Mechanism**: Allows users to retry connection if there is no internet.
 
 ## Installation
 
