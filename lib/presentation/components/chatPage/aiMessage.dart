@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
-class UserMessage extends StatelessWidget {
-  const UserMessage({super.key});
+class AiMessage extends StatelessWidget {
+  const AiMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16), bottomLeft: Radius.circular(16)),
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
         
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(
-          'User',
+          "Upgrade to Premium\nehlo dlhfhls lfdsf\nldkjslf dlsdkf kdls\nkdlklsdj",
           style: TextStyle(
             color: Colors.white,
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
           ),
-        ),
-      ),
+        )
+      )
     );
   }
 }

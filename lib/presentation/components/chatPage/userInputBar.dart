@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserInputBar extends StatelessWidget {
@@ -24,12 +25,13 @@ class UserInputBar extends StatelessWidget {
               SizedBox(width: 10.0),
             Expanded(
               child: TextField(
-                style: TextStyle(
+                style: GoogleFonts.manrope(
                   color: Colors.white,
                 ),
+                maxLines: null,
                 decoration: InputDecoration(
                   hintText: "Type your message here",
-                  hintStyle: TextStyle(
+                  hintStyle: GoogleFonts.manrope(
                     color: Colors.grey[400],
                   ),
                   
