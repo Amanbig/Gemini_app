@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/presentation/components/genTypes.dart';
 import 'package:gemini_app/presentation/components/messages.dart';
+import 'package:gemini_app/presentation/components/planUpgrade.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,57 +15,62 @@ class HomePage extends StatelessWidget {
       //   title: const Text('Gem AI'),
       // ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GenTypes(
-                  title: 'Generate Ideas\nand write articles',
-                  icons: PhosphorIcon(
-                      PhosphorIcons.pencilSimpleLine(),
-                      size: 32.0,
-                      color: Colors.white,
-                    ),
-                ),
-                GenTypes(
-                  title: 'Generate a pictures and art',
-                  icons: PhosphorIcon(
-                      PhosphorIcons.imageSquare(),
-                      size: 32.0,
-                      color: Colors.white,
-                    ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20,),
+              Planupgrade(),
+              SizedBox(height: 20,),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                spacing: 20,
                 children: [
-                  Messages(title: 'First Message',),
-                  Messages(
-                    title: 'First Message',
+                  GenTypes(
+                    title: 'Generate Ideas\nand write articles',
+                    icons: PhosphorIcon(
+                        PhosphorIcons.pencilSimpleLine(),
+                        size: 32.0,
+                        color: Colors.white,
+                      ),
                   ),
-                  Messages(
-                    title: 'First Message',
-                  ),
-                  Messages(
-                    title: 'First Message',
-                  ),
-                  Messages(
-                    title: 'First Message',
-                  ),
-                  Messages(
-                    title: 'First Message',
+                  GenTypes(
+                    title: 'Generate a pictures and art',
+                    icons: PhosphorIcon(
+                        PhosphorIcons.imageSquare(),
+                        size: 32.0,
+                        color: Colors.white,
+                      ),
                   ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  spacing: 20,
+                  children: [
+                    Messages(title: 'First Message',),
+                    Messages(
+                      title: 'First Message',
+                    ),
+                    Messages(
+                      title: 'First Message',
+                    ),
+                    Messages(
+                      title: 'First Message',
+                    ),
+                    Messages(
+                      title: 'First Message',
+                    ),
+                    Messages(
+                      title: 'First Message',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       
