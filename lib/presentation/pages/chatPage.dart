@@ -19,8 +19,8 @@ class ChatPage extends StatelessWidget {
               child: Container(alignment: Alignment.centerRight, child: UserMessage()),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(alignment: Alignment.center, child: AiMessage()),
+              padding: const EdgeInsets.all(20.0),
+              child: Container(alignment: Alignment.centerLeft, child: AiMessage()),
             ),
           Padding(
             padding: const EdgeInsets.all(12.0),
