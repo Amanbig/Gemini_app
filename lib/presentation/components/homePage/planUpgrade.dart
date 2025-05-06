@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class Planupgrade extends StatelessWidget {
@@ -26,7 +27,7 @@ class Planupgrade extends StatelessWidget {
           children: [
             Text(
               "Upgrade to Premium",
-              style: TextStyle(
+              style: GoogleFonts.manrope(
                 color: Colors.white,
                 fontSize: 26.0,
                 fontWeight: FontWeight.bold,
@@ -35,7 +36,7 @@ class Planupgrade extends StatelessWidget {
             SizedBox(height: 16,),
             Text(
               "Harness the full power of Gem AI with Premium access. ",
-              style: TextStyle(
+              style: GoogleFonts.manrope(
                 color: Colors.grey[400],
                 fontSize: 14.0,
               ),
@@ -44,11 +45,11 @@ class Planupgrade extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width * 0.4,
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Row(
                   children: [
                     PhosphorIcon(
@@ -59,9 +60,9 @@ class Planupgrade extends StatelessWidget {
                         SizedBox(width: 5.0), // Add some horizontal space between the icon and the text
                     Text(
                       "Upgrade Now",
-                      style: TextStyle(
+                      style: GoogleFonts.manrope(
                         color: Colors.white,
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                       )
                     ),
                   ],

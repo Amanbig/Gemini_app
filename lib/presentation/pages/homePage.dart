@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gemini_app/presentation/components/genTypes.dart';
-import 'package:gemini_app/presentation/components/messages.dart';
-import 'package:gemini_app/presentation/components/planUpgrade.dart';
+import 'package:gemini_app/presentation/components/homePage/genTypes.dart';
+import 'package:gemini_app/presentation/components/homePage/messages.dart';
+import 'package:gemini_app/presentation/components/homePage/planUpgrade.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
             children: [
               SizedBox(height: 20,),
               Planupgrade(),
-              SizedBox(height: 20,),
+              SizedBox(height: 22,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

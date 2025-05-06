@@ -31,7 +31,7 @@ class GenTypes extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withOpacity(0.3),
               borderRadius: BorderRadius.circular(50),
             ),
             child: Padding(
