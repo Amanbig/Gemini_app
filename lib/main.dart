@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/presentation/pages/authPage.dart';
 import 'package:gemini_app/presentation/pages/chatPage.dart';
 import 'package:gemini_app/presentation/pages/homePage.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:ChatPage(),
+      home:AuthPage(isLogin: false,),
     );
   }
 }
