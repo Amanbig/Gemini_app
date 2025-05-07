@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Adjustslider extends StatelessWidget {
   String? title;
-  Adjustslider({super.key,required this.title});
+  String? start;
+  String? end;
+  Adjustslider({super.key,required this.title,required this.start,required this.end});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,30 @@ class Adjustslider extends StatelessWidget {
             max: 100,
             onChanged: (value){},
           ),
+          Container(
+            // width: MediaQuery.of(context).size.width * 0.87,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(start!,
+                style: GoogleFonts.manrope(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                 ),
+                ),
+                Text(
+                    end!,
+                    style: GoogleFonts.manrope(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ]
+            )
+          )
         ],
       )
     );
