@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/presentation/components/accountPage/accountDetails.dart';
 import 'package:gemini_app/presentation/components/accountPage/actionButton.dart';
-import 'package:gemini_app/presentation/components/authPage/authButton.dart';
-import 'package:gemini_app/presentation/components/authPage/userInput.dart';
-import 'package:gemini_app/presentation/components/chatPage/aiMessage.dart';
-import 'package:gemini_app/presentation/components/chatPage/userMessage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AccountPage extends StatefulWidget {

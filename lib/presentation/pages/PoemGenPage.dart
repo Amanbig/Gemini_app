@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gemini_app/presentation/components/historyPage/messages.dart';
 import 'package:gemini_app/presentation/components/poemGenPage/adjustSlider.dart';
 
 class PoemGenPage extends StatelessWidget {
