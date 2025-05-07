@@ -110,6 +110,7 @@ class _PoemGenPageState extends State<PoemGenPage> {
                   end: 'Minimize',
                 ),
               ],
+              if(!isEdit)
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Poemview(),
