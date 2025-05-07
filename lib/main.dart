@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/presentation/pages/PoemGenPage.dart';
 import 'package:gemini_app/presentation/pages/accountPage.dart';
 import 'package:gemini_app/presentation/pages/authPage.dart';
 import 'package:gemini_app/presentation/pages/chatPage.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:HistoryPage(),
+      home:PoemGenPage(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/presentation/components/homePage/genTypes.dart';
 import 'package:gemini_app/presentation/components/homePage/planUpgrade.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,14 +21,27 @@ class HomePage extends StatelessWidget {
             children: [
               SizedBox(height: 20,),
               Planupgrade(),
-              SizedBox(height: 22,),
+              SizedBox(height: 30,),
+              
+              Center(
+                child: Text(
+                  'Select your Gen types',
+                  style: GoogleFonts.manrope(
+                    color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              
+              SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GenTypes(
                     title: 'Generate Ideas\nand write articles',
                     icons: PhosphorIcon(
-                        PhosphorIcons.pencilSimpleLine(),
+                        PhosphorIcons.chats(),
                         size: 32.0,
                         color: Colors.white,
                       ),
@@ -43,7 +57,27 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20,),
-              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GenTypes(
+                    title: 'Generate Music',
+                    icons: PhosphorIcon(
+                      PhosphorIcons.musicNote(),
+                      size: 32.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  GenTypes(
+                    title: 'Generate a poem',
+                    icons: PhosphorIcon(
+                      PhosphorIcons.cardsThree(),
+                      size: 32.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
