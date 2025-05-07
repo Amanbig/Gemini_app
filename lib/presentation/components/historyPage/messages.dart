@@ -42,7 +42,7 @@ class Messages extends StatelessWidget {
               
             ),
             PhosphorIcon(
-              PhosphorIcons.arrowRight(),
+              PhosphorIcons.trash(),
               size: 32.0,
               color: Colors.white,
             ),

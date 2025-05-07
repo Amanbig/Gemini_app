@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/presentation/components/homePage/genTypes.dart';
-import 'package:gemini_app/presentation/components/homePage/messages.dart';
 import 'package:gemini_app/presentation/components/homePage/planUpgrade.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -44,31 +43,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  spacing: 20,
-                  children: [
-                    Messages(title: 'First Message',),
-                    Messages(
-                      title: 'First Message',
-                    ),
-                    Messages(
-                      title: 'First Message',
-                    ),
-                    Messages(
-                      title: 'First Message',
-                    ),
-                    Messages(
-                      title: 'First Message',
-                    ),
-                    Messages(
-                      title: 'First Message',
-                    ),
-                  ],
-                ),
-              ),
+              
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gemini_app/presentation/pages/accountPage.dart';
 import 'package:gemini_app/presentation/pages/authPage.dart';
 import 'package:gemini_app/presentation/pages/chatPage.dart';
+import 'package:gemini_app/presentation/pages/historyPage.dart';
 import 'package:gemini_app/presentation/pages/homePage.dart';
 
 void main() async {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:AccountPage(),
+      home:HistoryPage(),
     );
   }
 }
