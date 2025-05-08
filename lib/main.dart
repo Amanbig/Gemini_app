@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gemini_app/presentation/pages/PoemGenPage.dart';
 import 'package:gemini_app/presentation/pages/accountPage.dart';
 import 'package:gemini_app/presentation/pages/authPage.dart';
 import 'package:gemini_app/presentation/pages/chatPage.dart';
 import 'package:gemini_app/presentation/pages/historyPage.dart';
 import 'package:gemini_app/presentation/pages/homePage.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:gemini_app/services/geminiService.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await dotenv.load();
-  await Supabase.initialize(
-    url: 'your_supabase_url',
-    anonKey: 'your_anon_key',
-  );
-  Gemini.init(apiKey: 'YOUR_API_KEY');
-  runApp(const MyApp());
+  await dotenv.load();
+  // await Supabase.initialize(
+  //   url: 'your_supabase_url',
+  //   anonKey: 'your_anon_key',
+  // );
+
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
